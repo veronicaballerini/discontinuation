@@ -17,7 +17,7 @@ da.discontinuation<-function(theta,
   Dobs   <- observed.data$Dobs
   x1     <- observed.data$x1st
   x2     <- observed.data$x2
-  x5     <- observed.data$x5
+  x3     <- observed.data$x3
   
   ID <- D <- rep(NA,n)
   
@@ -35,13 +35,13 @@ da.discontinuation<-function(theta,
                                 theta$beta.y1nd+
                                   theta$eta.y1*x1[id1==1]+
                                   theta$eta.y2*x2[id1==1]+
-                                  theta$eta.y5*x5[id1==1])
+                                  theta$eta.y3*x3[id1==1])
   den <- num + (1-theta$pi[id1==1])*Sweib(Dobs[id1==1],
                                           theta$alpha.d,
                                           theta$beta.d+
                                             theta$eta.d1*x1[id1==1]+
                                             theta$eta.d2*x2[id1==1]+
-                                            theta$eta.d5*x5[id1==1])
+                                            theta$eta.d3*x3[id1==1])
   pr  <- num/den
   ID[id1==1] <- rbinom(sum(id1),1,pr)
   
@@ -53,7 +53,7 @@ da.discontinuation<-function(theta,
                   scale=exp(-(theta$beta.d+
                               theta$eta.d1*x1[ii==1]+
                               theta$eta.d2*x2[ii==1]+
-                              theta$eta.d5*x5[ii==1])/theta$alpha.d))
+                              theta$eta.d3*x3[ii==1])/theta$alpha.d))
   D[ii==1]<-dii*(dii>=Dobs[ii==1])+Dobs[ii==1]*(dii<Dobs[ii==1])
   
   rm(ii)
@@ -78,7 +78,7 @@ da.discontinuation<-function(theta,
                          scale=exp(-(theta$beta.d+
                                      theta$eta.d1*x1[ii==1]+
                                      theta$eta.d2*x2[ii==1]+
-                                     theta$eta.d5*x5[ii==1])/theta$alpha.d))
+                                     theta$eta.d3*x3[ii==1])/theta$alpha.d))
   rm(ii)
   
   complete.data.old <- data.frame(cens=observed.data$f.up, Z=observed.data$Z,
@@ -86,13 +86,13 @@ da.discontinuation<-function(theta,
                                   RY=observed.data$RY, Y=observed.data$Y, 
                                   x1=observed.data$x1st, 
                                   x2=observed.data$x2, 
-                                  x5=observed.data$x5)
+                                  x3=observed.data$x3)
   complete.data.c   <- data.frame(cens=observed.data$f.up, Z=observed.data$Z,
                                   ID=ID.c, RD=observed.data$RD.obs, D=D.c, 
                                   RY=observed.data$RY, Y=observed.data$Y, 
                                   x1=observed.data$x1st, 
                                   x2=observed.data$x2, 
-                                  x5=observed.data$x5)
+                                  x3=observed.data$x3)
   
   rr <- exp(logpost.i(theta, theta.prior, complete.data.c) - 
               logpost.i(theta, theta.prior, complete.data.old))
@@ -108,7 +108,7 @@ da.discontinuation<-function(theta,
                                  theta$beta.d+
                                    theta$eta.d1*x1[ii==1]+
                                    theta$eta.d2*x2[ii==1]+
-                                   theta$eta.d5*x5[ii==1])}}
+                                   theta$eta.d3*x3[ii==1])}}
   
   ii<-as.numeric(Z==0 & ID.old==0 & ID.c==1)
   ratio[ii==1] <- rr[ii==1]*
@@ -118,7 +118,7 @@ da.discontinuation<-function(theta,
               theta$beta.d+
                 theta$eta.d1*x1[ii==1]+
                 theta$eta.d2*x2[ii==1]+
-                theta$eta.d5*x5[ii==1])}/theta$pi[ii==1]}
+                theta$eta.d3*x3[ii==1])}/theta$pi[ii==1]}
   
   ii<-as.numeric(Z==0 & ID.old==0 & ID.c==0)
   ratio[ii==1] <- rr[ii==1]*
@@ -127,12 +127,12 @@ da.discontinuation<-function(theta,
               theta$beta.d+
                 theta$eta.d1*x1[ii==1]+
                 theta$eta.d2*x2[ii==1]+
-                theta$eta.d5*x5[ii==1])/dweib(D.c[ii==1],
+                theta$eta.d3*x3[ii==1])/dweib(D.c[ii==1],
                                               theta$alpha.d,
                                               theta$beta.d+
                                                 theta$eta.d1*x1[ii==1]+
                                                 theta$eta.d2*x2[ii==1]+
-                                                theta$eta.d5*x5[ii==1])}
+                                                theta$eta.d3*x3[ii==1])}
   
   ru<-runif(n0)
   ID[Z==0] <- ID.c[Z==0]*(ru <= ratio[Z==0] & is.nan(ratio[Z==0])==FALSE) + 
