@@ -22,7 +22,9 @@ library(parallel)
 library(ggplot2)
 library(xtable)
 
-load(paste(wd,"/Oct 8_18-15.RData",sep=""))
+#### Load data
+# change the name of the .RData file at the following line
+load(paste(wd,"/Oct 8_18-15.RData",sep="")) ## change with the name of your file
 realdata<-read.table("realdata1_4816.txt",header=T)
 thetatrue<-myload("thetatrue1_4816.RData")
 
