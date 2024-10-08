@@ -2,25 +2,25 @@ ce <- function(theta, d,complete.data, scenario){
   
   x1<-complete.data$x1
   x2<-complete.data$x2
-  x5<-complete.data$x5
+  x3<-complete.data$x3
   ID<-complete.data$ID
   D<-complete.data$D
 
   m1_d<-mean(x1[ID==0])
   m2_d<-mean(x2[ID==0])
-  m5_d<-mean(x5[ID==0])
+  m3_d<-mean(x3[ID==0])
   
   m1_nd<-mean(x1[ID==1])
   m2_nd<-mean(x2[ID==1])
-  m5_nd<-mean(x5[ID==1])
+  m3_nd<-mean(x3[ID==1])
   
   m1_ed<-mean(x1[ID==0&D<median(D[ID==0])])
   m2_ed<-mean(x2[ID==0&D<median(D[ID==0])])
-  m5_ed<-mean(x5[ID==0&D<median(D[ID==0])])
+  m3_ed<-mean(x3[ID==0&D<median(D[ID==0])])
   
   m1_ld<-mean(x1[ID==0&D>=median(D[ID==0])])
   m2_ld<-mean(x2[ID==0&D>=median(D[ID==0])])
-  m5_ld<-mean(x5[ID==0&D>=median(D[ID==0])])
+  m3_ld<-mean(x3[ID==0&D>=median(D[ID==0])])
   
   EY1<-NULL
   EY0<-NULL
@@ -29,11 +29,11 @@ ce <- function(theta, d,complete.data, scenario){
     EY1 <- sum(EY1,exp(-(theta$beta.y1nd+
                            theta$eta.y1*x1[i]+
                            theta$eta.y2*x2[i]+
-                           theta$eta.y5*x5[i])/theta$alpha.y1nd)*gamma(1+{1/theta$alpha.y1nd})*theta$pi[i])
+                           theta$eta.y3*x3[i])/theta$alpha.y1nd)*gamma(1+{1/theta$alpha.y1nd})*theta$pi[i])
     EY0 <- sum(EY0,exp(-(theta$beta.y0nd+
                            theta$eta.y1*x1[i]+
                            theta$eta.y2*x2[i]+
-                           theta$eta.y5*x5[i])/theta$alpha.y0nd)*gamma(1+{1/theta$alpha.y0nd})*theta$pi[i])
+                           theta$eta.y3*x3[i])/theta$alpha.y0nd)*gamma(1+{1/theta$alpha.y0nd})*theta$pi[i])
   }
   
   pG<-sum(theta$pi[ID==1])
@@ -57,14 +57,14 @@ ce <- function(theta, d,complete.data, scenario){
     EY0 <- EY1 <- NULL
     
     for(i in which(ID==0)){
-      # EY1 <- sum(EY1,(exp(-(theta$beta.y1d+theta$lambda*log(d[h])+theta$eta.y1*x1[i]+theta$eta.y2*x2[i]+theta$eta.y5*x5[i])/theta$alpha.y1d)*gamma(1+{1/theta$alpha.y1d})+d[h])*(1-theta$pi[i]))
-      # EY0 <- sum(EY0,(exp(-(theta$beta.y0d+theta$lambda*log(d[h])+theta$eta.y1*x1[i]+theta$eta.y2*x2[i]+theta$eta.y5*x5[i])/theta$alpha.y0d)*gamma(1+{1/theta$alpha.y0d})+k*d[h])*(1-theta$pi[i]))
+      # EY1 <- sum(EY1,(exp(-(theta$beta.y1d+theta$lambda*log(d[h])+theta$eta.y1*x1[i]+theta$eta.y2*x2[i]+theta$eta.y3*x3[i])/theta$alpha.y1d)*gamma(1+{1/theta$alpha.y1d})+d[h])*(1-theta$pi[i]))
+      # EY0 <- sum(EY0,(exp(-(theta$beta.y0d+theta$lambda*log(d[h])+theta$eta.y1*x1[i]+theta$eta.y2*x2[i]+theta$eta.y3*x3[i])/theta$alpha.y0d)*gamma(1+{1/theta$alpha.y0d})+k*d[h])*(1-theta$pi[i]))
       EY1 <- sum(EY1,Weib.Trunc.Moments(order=1,
                                         shape=theta$alpha.y1d,
                                         scale=exp(-(theta$beta.y1d+
                                                       theta$eta.y1*x1[i]+
                                                       theta$eta.y2*x2[i]+
-                                                      theta$eta.y5*x5[i]+
+                                                      theta$eta.y3*x3[i]+
                                                       theta$lambda*log(d[h]))/theta$alpha.y1d),
                                         left=d[h])*(1-theta$pi[i]))
       # EY0 <- sum(EY0,Weib.Trunc.Moments(order=1,
@@ -72,7 +72,7 @@ ce <- function(theta, d,complete.data, scenario){
       #                                   scale=exp(-(theta$beta.y0d+
       #                                                 theta$eta.y1*x1[i]+
       #                                                 theta$eta.y2*x2[i]+
-      #                                                 theta$eta.y5*x5[i]+
+      #                                                 theta$eta.y3*x3[i]+
       #                                                 theta$lambda*log(d[h]))/theta$alpha.y0d),
       #                                   left=d[h])*(1-theta$pi[i]))
       if(scenario==1){
@@ -80,14 +80,14 @@ ce <- function(theta, d,complete.data, scenario){
                                 theta$lambda*log(d[h])+
                                 theta$eta.y1*x1[i]+
                                 theta$eta.y2*x2[i]+
-                                theta$eta.y5*x5[i])/theta$alpha.y0d)*gamma(1+{1/theta$alpha.y0d}))*(1-theta$pi[i]))
+                                theta$eta.y3*x3[i])/theta$alpha.y0d)*gamma(1+{1/theta$alpha.y0d}))*(1-theta$pi[i]))
       }else{
         EY0 <- sum(EY0,Weib.Trunc.Moments(order=1,
                                           shape=theta$alpha.y0d,
                                           scale=exp(-(theta$beta.y0d+
                                                         theta$eta.y1*x1[i]+
                                                         theta$eta.y2*x2[i]+
-                                                        theta$eta.y5*x5[i]+
+                                                        theta$eta.y3*x3[i]+
                                                         theta$lambda*log(d[h]))/theta$alpha.y0d),
                                           left=d[h])*(1-theta$pi[i]))
       }
@@ -103,13 +103,13 @@ ce <- function(theta, d,complete.data, scenario){
                                  b=theta$beta.d+
                                    theta$eta.y1*x1[i]+
                                    theta$eta.y2*x2[i]+
-                                   theta$eta.y5*x5[i])
+                                   theta$eta.y3*x3[i])
     EY0.d_save2[h] <- EY0*dweib(h,
                                 a=theta$alpha.d,
                                 b=theta$beta.d+
                                   theta$eta.y1*x1[i]+
                                   theta$eta.y2*x2[i]+
-                                  theta$eta.y5*x5[i])
+                                  theta$eta.y3*x3[i])
     
     rm(EY0,EY1)
     
@@ -120,7 +120,7 @@ ce <- function(theta, d,complete.data, scenario){
                                 b=theta$beta.d+
                                   theta$eta.y1*x1[i]+
                                   theta$eta.y2*x2[i]+
-                                  theta$eta.y5*x5[i])
+                                  theta$eta.y3*x3[i])
     
     rm(EY1.d,EY0.d)
   }
@@ -136,17 +136,17 @@ ce <- function(theta, d,complete.data, scenario){
   list(ace.nd=ace.nd, ace.d=ace.d, ace.fd=ace.fd,
        aceoverall=aceoverall,EY0.nd=EY0.nd_save,EY0.d=EY0.d_save,
        EY0.d_overall=EY0.d_overall,EY0_overall=EY0_overall,
-       m1_d=m1_d, m2_d=m2_d, m5_d=m5_d, 
-       m1_nd=m1_nd, m2_nd=m2_nd, m5_nd=m5_nd, 
-       m1_ed=m1_ed, m2_ed=m2_ed, m5_ed=m5_ed,
-       m1_ld=m1_ld, m2_ld=m2_ld, m5_ld=m5_ld)
+       m1_d=m1_d, m2_d=m2_d, m3_d=m3_d, 
+       m1_nd=m1_nd, m2_nd=m2_nd, m3_nd=m3_nd, 
+       m1_ed=m1_ed, m2_ed=m2_ed, m3_ed=m3_ed,
+       m1_ld=m1_ld, m2_ld=m2_ld, m3_ld=m3_ld)
 }
 
 dce <- function(theta, d, y, complete.data){
 
   x1<-complete.data$x1
   x2<-complete.data$x2
-  x5<-complete.data$x5
+  x3<-complete.data$x3
   ID<-complete.data$ID
   D<-complete.data$D
 
@@ -158,13 +158,13 @@ dce <- function(theta, d, y, complete.data){
                            theta$beta.y1nd+
                              theta$eta.y1*x1[i]+
                              theta$eta.y2*x2[i]+
-                             theta$eta.y5*x5[i])*theta$pi[i] ) 
+                             theta$eta.y3*x3[i])*theta$pi[i] ) 
     dce.nd0 <- rbind(dce.nd0,
                      Sweib(y, theta$alpha.y0nd, 
                            theta$beta.y0nd+
                              theta$eta.y1*x1[i]+
                              theta$eta.y2*x2[i]+
-                             theta$eta.y5*x5[i])*theta$pi[i])
+                             theta$eta.y3*x3[i])*theta$pi[i])
   }
   
   dce.nd1s<-colSums(dce.nd1)
@@ -193,7 +193,7 @@ dce <- function(theta, d, y, complete.data){
                             sc=exp(-(theta$beta.y1d+
                                        theta$eta.y1*x1[i]+
                                        theta$eta.y2*x2[i]+
-                                       theta$eta.y5*x5[i]+
+                                       theta$eta.y3*x3[i]+
                                        theta$lambda*log(d[h]))/theta$alpha.y1d),
                             a=d[h])*(1-theta$pi[i]))
       dce.d0 <- rbind(dce.d0,
@@ -203,7 +203,7 @@ dce <- function(theta, d, y, complete.data){
                               theta$lambda*log(d[h])+
                               theta$eta.y1*x1[i]+
                               theta$eta.y2*x2[i]+
-                              theta$eta.y5*x5[i])*(1-theta$pi[i]))
+                              theta$eta.y3*x3[i])*(1-theta$pi[i]))
       
     }
     
