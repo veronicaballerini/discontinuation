@@ -21,7 +21,7 @@ library(ggfortify)
 #Pre-treatment variables:
 #X1 = Continuous variable; the bigger the number, the higher the risk (Age)
 #X2 = Presence of specific metastatic status before enrolling the study
-#X5 = Disease burden indicator.
+#X3 = Disease burden indicator.
 #Treatment variable:
 #Z=1 investigational trt + Standard of Care (SOC)
 #Z=0 SOC 
@@ -43,7 +43,7 @@ nC<-n-nT #number of controls
 x1<-rnorm(n,63.27,10.50) #age
 x1st<-(x1-mean(x1))/sd(x1) #age - standardised
 x2<-rbinom(n,1,.44) #1 if metastatic status prior to the enrolment, 0 otherwise
-x5<-rbinom(n,1,1-.76) #1 if the desease burden is >=3, 0 if <3
+x3<-rbinom(n,1,1-.76) #1 if the desease burden is >=3, 0 if <3
 
 Z<-matrix(c(rep(1,nT),rep(0,nC)),n,1) #treatment
 
@@ -53,25 +53,25 @@ Z<-matrix(c(rep(1,nT),rep(0,nC)),n,1) #treatment
 #                      = 0 otherwise
 #I{D_i(1)=D} ~ Bernoulli(pix_i)
 
-eta<-list(int=.6,x1st=-.5,x2=.45,x5=.55) #intercept:  #previously x1st=.3
+eta<-list(int=.6,x1st=-.5,x2=.45,x3=.55) #intercept:  #previously x1st=.3
 #we assumed the proportion of ND to be approximately equal to .65: lower bound 
 #is 90/181 
 #eta$x1st: we assumed the older the patient the lower the probability to be an 
 #ND patient, since discontinuation is competing with progression;
-#eta$x2,x5: we assumed the more severe the condition, the higher the probability 
+#eta$x2,x3: we assumed the more severe the condition, the higher the probability 
 #of being an ND patient (as above)
 
 pix<-exp(eta$int+
            eta$x1*x1st+
            eta$x2*x2+
-           eta$x5*x5)/(1+exp(eta$int+
+           eta$x3*x3)/(1+exp(eta$int+
                                eta$x1st*x1st+
                                eta$x2*x2+
-                               eta$x5*x5))
+                               eta$x3*x3))
 ID <- rbinom(n,1,pix)
 
 #Discontinuation variable:
-#D1 ~ Weibull(shape=alpha.d, scale=beta.d+eta.d1*x1st+eta.d2*x2+eta.d5*x5)
+#D1 ~ Weibull(shape=alpha.d, scale=beta.d+eta.d1*x1st+eta.d2*x2+eta.d5*x3)
 
 #parameters of the Weibulls:
 shape.d <- alpha.d <- 1.2
@@ -84,7 +84,7 @@ par.scale.d <- list(beta.d = -alpha.d*log(mean.d1/gamma(1+1/alpha.d)),
 scale.d <- exp(-(par.scale.d$beta.d+
                    par.scale.d$eta.d1*x1st+
                    par.scale.d$eta.d2*x2+
-                   par.scale.d$eta.d5*x5)/alpha.d)
+                   par.scale.d$eta.d5*x3)/alpha.d)
 
 D1 <- rep(NA,n) #potential discontinuation under treatment
 D1[ID==0] <- rweibull(sum(1-ID),shape=shape.d,
@@ -96,15 +96,15 @@ f.up<-33-entry #follow up period, from entry to study end (33 months)
 
 #Outcome variable:
 #Y1|D1=NA ~ Weibull(shape = alpha.y1nd,
-#                   scale = beta.y1nd + eta.y1*x1st + eta.y2*x2 + eta.y5*x5)
+#                   scale = beta.y1nd + eta.y1*x1st + eta.y2*x2 + eta.y5*x3)
 #Y1|D1=d ~ Weibull(shape = alpha.y1d,
 #                  scale = beta.y1d + lambda*log(D1) + eta.y1*x1st + eta.y2*x2 +
-#                   eta.y5*x5)
+#                   eta.y5*x3)
 #Y0|D1=NA ~ Weibull(shape = alpha.y0nd,
-#                   scale = beta.y0nd + eta.y1*x1st + eta.y2*x2 + eta.y5*x5)
+#                   scale = beta.y0nd + eta.y1*x1st + eta.y2*x2 + eta.y5*x3)
 #Y0|D1=d ~ Weibull(shape=alpha.y0d,
 #                  scale = beta.y0d + lambda*log(D1) + eta.y1*x1st + eta.y2*x2 +
-#                   eta.y5*x5)
+#                   eta.y5*x3)
 
 ################### parameters under H0 of positive effect #####################
 #parameters of the Weibulls:
@@ -153,13 +153,13 @@ theta<-list(alpha.y1nd = alpha.y1nd, beta.y1nd = beta.y1nd,
             lambda = 0.3)
 
 scale.y1nd <- exp(-(theta$beta.y1nd+theta$eta.y1*x1st+theta$eta.y2*x2+
-                      theta$eta.y5*x5)/theta$alpha.y1nd)
+                      theta$eta.y5*x3)/theta$alpha.y1nd)
 scale.y1d <- exp(-(theta$beta.y1d+theta$lambda*log(D1)+theta$eta.y1*x1st+
-                     theta$eta.y2*x2+theta$eta.y5*x5)/theta$alpha.y1d)
+                     theta$eta.y2*x2+theta$eta.y5*x3)/theta$alpha.y1d)
 scale.y0nd <- exp(-(theta$beta.y0nd+theta$eta.y1*x1st+theta$eta.y2*x2+
-                      theta$eta.y5*x5)/theta$alpha.y0nd)
+                      theta$eta.y5*x3)/theta$alpha.y0nd)
 scale.y0d <- exp(-(theta$beta.y0d+theta$lambda*log(D1)+theta$eta.y1*x1st+
-                     theta$eta.y2*x2+theta$eta.y5*x5)/theta$alpha.y0d)
+                     theta$eta.y2*x2+theta$eta.y5*x3)/theta$alpha.y0d)
 
 # Hazard function for NDs and Ds
 
@@ -242,7 +242,7 @@ RD.obs<-RD
 Y<-Yobs
 cens<-rep(33,n)
 
-data<-data.frame(entry,Z,f.up,cens,RD.obs,Dobs,RY,Y,ID.obs,x1,x1st,x2,x5)
+data<-data.frame(entry,Z,f.up,cens,RD.obs,Dobs,RY,Y,ID.obs,x1,x1st,x2,x3)
 
 status<-ifelse(f.up==Yobs,0,1)
 
@@ -258,7 +258,7 @@ dev.off()
 thetatrue<-list(eta.0 = eta$int,
                 eta.1 = eta$x1st,
                 eta.2 = eta$x2,
-                eta.5 = eta$x5,
+                eta.5 = eta$x3,
                 alpha.d = alpha.d, beta.d = par.scale.d$beta.d,
                 eta.d1 = par.scale.d$eta.d1,
                 eta.d2 = par.scale.d$eta.d2,
@@ -278,5 +278,5 @@ rm(theta)
 
 write.table(data,paste("simdata1_",seed,".txt",sep=""))
 
-realdata<-data.frame(Z=Z,Y1=Y1,Y0=Y0,x1=x1st,x2=x2,x5=x5,ID=ID,D=D1)
+realdata<-data.frame(Z=Z,Y1=Y1,Y0=Y0,x1=x1st,x2=x2,x3=x3,ID=ID,D=D1)
 write.table(realdata,paste("realdata1_",seed,".txt",sep=""))
