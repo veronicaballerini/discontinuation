@@ -3,34 +3,34 @@ ce_apply <- function(x){
   d<-seq(1,10) 
   x1<-observed.data$x1st
   x2<-observed.data$x2
-  x5<-observed.data$x5
+  x3<-observed.data$x3
   ID<-x$ID
   D<-x$D
   
   pi<-exp(x$eta.0+
             x$eta.1*x1 + 
             x$eta.2*x2 + 
-            x$eta.5*x5)/(1+
+            x$eta.3*x3)/(1+
                            exp(x$eta.0+
                                  x$eta.1*x1 + 
                                  x$eta.2*x2 + 
-                                 x$eta.5*x5))
+                                 x$eta.3*x3))
   
   m1_d<-mean(x1[ID==0])
   m2_d<-mean(x2[ID==0])
-  m5_d<-mean(x5[ID==0])
+  m3_d<-mean(x3[ID==0])
   
   m1_nd<-mean(x1[ID==1])
   m2_nd<-mean(x2[ID==1])
-  m5_nd<-mean(x5[ID==1])
+  m3_nd<-mean(x3[ID==1])
   
   m1_ed<-mean(x1[ID==0&D<median(D[ID==0])])
   m2_ed<-mean(x2[ID==0&D<median(D[ID==0])])
-  m5_ed<-mean(x5[ID==0&D<median(D[ID==0])])
+  m3_ed<-mean(x3[ID==0&D<median(D[ID==0])])
   
   m1_ld<-mean(x1[ID==0&D>=median(D[ID==0])])
   m2_ld<-mean(x2[ID==0&D>=median(D[ID==0])])
-  m5_ld<-mean(x5[ID==0&D>=median(D[ID==0])])
+  m3_ld<-mean(x3[ID==0&D>=median(D[ID==0])])
   
   EY1<-NULL
   EY0<-NULL
@@ -39,11 +39,11 @@ ce_apply <- function(x){
     EY1 <- sum(EY1,exp(-(x$beta.y1nd+
                            x$eta.y1*x1[i]+
                            x$eta.y2*x2[i]+
-                           x$eta.y5*x5[i])/x$alpha.y1nd)*gamma(1+{1/x$alpha.y1nd})*pi[i])
+                           x$eta.y3*x3[i])/x$alpha.y1nd)*gamma(1+{1/x$alpha.y1nd})*pi[i])
     EY0 <- sum(EY0,exp(-(x$beta.y0nd+
                            x$eta.y1*x1[i]+
                            x$eta.y2*x2[i]+
-                           x$eta.y5*x5[i])/x$alpha.y0nd)*gamma(1+{1/x$alpha.y0nd})*pi[i])
+                           x$eta.y3*x3[i])/x$alpha.y0nd)*gamma(1+{1/x$alpha.y0nd})*pi[i])
   }
   
   pG<-sum(pi[ID==1])
@@ -69,14 +69,14 @@ ce_apply <- function(x){
                                         scale=exp(-(x$beta.y1d+
                                                       x$eta.y1*x1[i]+
                                                       x$eta.y2*x2[i]+
-                                                      x$eta.y5*x5[i]+
+                                                      x$eta.y3*x3[i]+
                                                       x$lambda*log(d[h]))/x$alpha.y1d),
                                         left=d[h])*(1-pi[i]))
       EY0 <- sum(EY0,(exp(-(x$beta.y0d+
                               x$lambda*log(d[h])+
                               x$eta.y1*x1[i]+
                               x$eta.y2*x2[i]+
-                              x$eta.y5*x5[i])/x$alpha.y0d)*gamma(1+{1/x$alpha.y0d}))*(1-pi[i]))
+                              x$eta.y3*x3[i])/x$alpha.y0d)*gamma(1+{1/x$alpha.y0d}))*(1-pi[i]))
       
     }
     
@@ -92,7 +92,7 @@ ce_apply <- function(x){
                                 b=x$beta.d+
                                   x$eta.y1*x1[i]+
                                   x$eta.y2*x2[i]+
-                                  x$eta.y5*x5[i])
+                                  x$eta.y3*x3[i])
     
     rm(EY1.d,EY0.d)
   }
@@ -104,10 +104,10 @@ ce_apply <- function(x){
   
   list(ace.nd=ace.nd, ace.d=ace.d, ace.fd = ace.fd,
        aceoverall=aceoverall, 
-       m1_d=m1_d, m2_d=m2_d, m5_d=m5_d, 
-       m1_nd=m1_nd, m2_nd=m2_nd, m5_nd=m5_nd, 
-       m1_ed=m1_ed, m2_ed=m2_ed, m5_ed=m5_ed,
-       m1_ld=m1_ld, m2_ld=m2_ld, m5_ld=m5_ld)
+       m1_d=m1_d, m2_d=m2_d, m3_d=m3_d, 
+       m1_nd=m1_nd, m2_nd=m2_nd, m3_nd=m3_nd, 
+       m1_ed=m1_ed, m2_ed=m2_ed, m3_ed=m3_ed,
+       m1_ld=m1_ld, m2_ld=m2_ld, m3_ld=m3_ld)
 }
 
 dce_apply <- function(x){
@@ -117,18 +117,18 @@ dce_apply <- function(x){
   
   x1<-observed.data$x1st
   x2<-observed.data$x2
-  x5<-observed.data$x5
+  x3<-observed.data$x3
   ID<-x$ID
   D<-x$D
   
   pi<-exp(x$eta.0+
             x$eta.1*x1 + 
             x$eta.2*x2 + 
-            x$eta.5*x5)/(1+
+            x$eta.3*x3)/(1+
                            exp(x$eta.0+
                                  x$eta.1*x1 + 
                                  x$eta.2*x2 + 
-                                 x$eta.5*x5))
+                                 x$eta.3*x3))
   
   
   dce.nd1<-dce.nd0<-NULL
@@ -139,13 +139,13 @@ dce_apply <- function(x){
                            x$beta.y1nd+
                              x$eta.y1*x1[i]+
                              x$eta.y2*x2[i]+
-                             x$eta.y5*x5[i])*pi[i] ) 
+                             x$eta.y3*x3[i])*pi[i] ) 
     dce.nd0 <- rbind(dce.nd0,
                      Sweib(y, x$alpha.y0nd,
                            x$beta.y0nd+
                              x$eta.y1*x1[i]+
                              x$eta.y2*x2[i]+
-                             x$eta.y5*x5[i])*pi[i])
+                             x$eta.y3*x3[i])*pi[i])
   }
   
   dce.nd1s<-colSums(dce.nd1)
@@ -174,7 +174,7 @@ dce_apply <- function(x){
                               sc=exp(-(x$beta.y1d+
                                          x$eta.y1*x1[i]+
                                          x$eta.y2*x2[i]+
-                                         x$eta.y5*x5[i]+
+                                         x$eta.y3*x3[i]+
                                          x$lambda*log(d[h]))/x$alpha.y1d),
                               a=d[h])*(1-pi[i]))
       # dce.d1 <- rbind(dce.d1,
@@ -183,7 +183,7 @@ dce_apply <- function(x){
       #                        b=x$beta.y1d+
       #                          x$eta.y1*x1[i]+
       #                          x$eta.y2*x2[i]+
-      #                          x$eta.y5*x5[i]+
+      #                          x$eta.y3*x3[i]+
       #                          x$lambda*log(d[h]),
       #                        l=d[h])*(1-pi[i]))
       
@@ -194,7 +194,7 @@ dce_apply <- function(x){
                                x$lambda*log(d[h])+
                                x$eta.y1*x1[i]+
                                x$eta.y2*x2[i]+
-                               x$eta.y5*x5[i]))*(1-pi[i]))
+                               x$eta.y3*x3[i]))*(1-pi[i]))
       
     }
     
