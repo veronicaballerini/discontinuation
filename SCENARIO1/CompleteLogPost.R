@@ -9,7 +9,7 @@ logpost<-function(theta, theta.prior, complete.data){
   Y  <- complete.data$Y   #survival time
   x1 <- complete.data$x1
   x2 <- complete.data$x2
-  x5 <- complete.data$x5
+  x3 <- complete.data$x3
   
   
   loglik<-0
@@ -22,7 +22,7 @@ logpost<-function(theta, theta.prior, complete.data){
                   theta$beta.y1nd+
                     theta$eta.y1*x1[ii]+
                     theta$eta.y2*x2[ii]+
-                    theta$eta.y5*x5[ii]))},
+                    theta$eta.y3*x3[ii]))},
         na.rm = TRUE)
   
   #Z=1 ID=1 RY=0 ---> Never discontinued who do not die under treatment
@@ -34,7 +34,7 @@ logpost<-function(theta, theta.prior, complete.data){
                   theta$beta.y1nd+
                     theta$eta.y1*x1[ii]+
                     theta$eta.y2*x2[ii]+
-                    theta$eta.y5*x5[ii]))},
+                    theta$eta.y3*x3[ii]))},
         na.rm = TRUE)
   
   #Z=1 ID=0 RD=1 RY=1 ---> Discontinued who die under treatment for whom we 
@@ -47,13 +47,13 @@ logpost<-function(theta, theta.prior, complete.data){
                   theta$beta.d+
                     theta$eta.d1*x1[ii]+
                     theta$eta.d2*x2[ii]+
-                    theta$eta.d5*x5[ii]))+
+                    theta$eta.d3*x3[ii]))+
         log(dtweibull(Y[ii],
                   shape=theta$alpha.y1d,
                   scale=exp(-(theta$beta.y1d+
                           theta$eta.y1*x1[ii]+
                           theta$eta.y2*x2[ii]+
-                          theta$eta.y5*x5[ii]+
+                          theta$eta.y3*x3[ii]+
                             theta$lambda*log(D[ii]))/theta$alpha.y1d),
                   a=D[ii]))},
         # log(dtweib(Y[ii], 
@@ -61,7 +61,7 @@ logpost<-function(theta, theta.prior, complete.data){
         #            sc=exp(-(theta$beta.y1d+
         #                       theta$eta.y1*x1[ii]+
         #                       theta$eta.y2*x2[ii]+
-        #                       theta$eta.y5*x5[ii]+
+        #                       theta$eta.y3*x3[ii]+
         #                       theta$lambda*log(D[ii]))/theta$alpha.y1d),
         #            a=D[ii]))},
         na.rm = TRUE)
@@ -76,13 +76,13 @@ logpost<-function(theta, theta.prior, complete.data){
                   theta$beta.d+
                     theta$eta.d1*x1[ii]+
                     theta$eta.d2*x2[ii]+
-                    theta$eta.d5*x5[ii]))+
+                    theta$eta.d3*x3[ii]))+
         log(Stweib(Y[ii],
                   sh=theta$alpha.y1d,
                   sc=exp(-(theta$beta.y1d+
                                       theta$eta.y1*x1[ii]+
                                       theta$eta.y2*x2[ii]+
-                                      theta$eta.y5*x5[ii]+
+                                      theta$eta.y3*x3[ii]+
                                       theta$lambda*log(D[ii]))/theta$alpha.y1d),
                   a=D[ii]))
         # log(Stweib(Y[ii], 
@@ -90,7 +90,7 @@ logpost<-function(theta, theta.prior, complete.data){
         #            b=theta$beta.y1d+
         #              theta$eta.y1*x1[ii]+
         #              theta$eta.y2*x2[ii]+
-        #              theta$eta.y5*x5[ii]+
+        #              theta$eta.y3*x3[ii]+
         #              theta$lambda*log(D[ii]),
         #            l=D[ii]))
       },
@@ -106,7 +106,7 @@ logpost<-function(theta, theta.prior, complete.data){
                   theta$beta.d+
                     theta$eta.d1*x1[ii]+
                     theta$eta.d2*x2[ii]+
-                    theta$eta.d5*x5[ii]))},
+                    theta$eta.d3*x3[ii]))},
         na.rm = TRUE)
   
   
@@ -119,7 +119,7 @@ logpost<-function(theta, theta.prior, complete.data){
                     theta$beta.y0nd+
                     theta$eta.y1*x1[ii]+
                     theta$eta.y2*x2[ii]+
-                    theta$eta.y5*x5[ii]))
+                    theta$eta.y3*x3[ii]))
       },na.rm = TRUE)
 
   #Z=0 ID=1 RY=0 ---> Never discontinued who do not die under control
@@ -131,7 +131,7 @@ logpost<-function(theta, theta.prior, complete.data){
                     theta$beta.y0nd+
                     theta$eta.y1*x1[ii]+
                     theta$eta.y2*x2[ii]+
-                    theta$eta.y5*x5[ii]))},
+                    theta$eta.y3*x3[ii]))},
         na.rm = TRUE)
   
   #Z=0 ID=0 RY=1 ---> Discontinued who die under control
@@ -143,14 +143,14 @@ logpost<-function(theta, theta.prior, complete.data){
                   theta$beta.d+
                     theta$eta.d1*x1[ii]+
                     theta$eta.d2*x2[ii]+
-                    theta$eta.d5*x5[ii]))+
+                    theta$eta.d3*x3[ii]))+
         log(dweib(Y[ii], 
                     theta$alpha.y0d, 
                     {theta$beta.y0d+
                         theta$lambda*log(D[ii])+
                         theta$eta.y1*x1[ii]+
                         theta$eta.y2*x2[ii]+
-                        theta$eta.y5*x5[ii]}))
+                        theta$eta.y3*x3[ii]}))
       },na.rm = TRUE)
   
   #Z=0 ID=0 RY=0 ---> Discontinued who do not die under control
@@ -162,14 +162,14 @@ logpost<-function(theta, theta.prior, complete.data){
                   theta$beta.d+
                     theta$eta.d1*x1[ii]+
                     theta$eta.d2*x2[ii]+
-                    theta$eta.d5*x5[ii]))+
+                    theta$eta.d3*x3[ii]))+
         log(Sweib(Y[ii], 
                     theta$alpha.y0d, 
                     {theta$beta.y0d+
                         theta$lambda*log(D[ii])+
                         theta$eta.y1*x1[ii]+
                         theta$eta.y2*x2[ii]+
-                        theta$eta.y5*x5[ii]}))},
+                        theta$eta.y3*x3[ii]}))},
         na.rm = TRUE)
   
   logprior<-0
@@ -177,22 +177,22 @@ logpost<-function(theta, theta.prior, complete.data){
   sigmaprior <- diag(c(theta.prior$sigma2.0,
                        theta.prior$sigma2.1,
                        theta.prior$sigma2.2,
-                       theta.prior$sigma2.5))  
+                       theta.prior$sigma2.3))  
   
   logprior <- logprior + 
     dmvnorm(c(theta$eta.0,
               theta$eta.1,
               theta$eta.2,
-              theta$eta.5), 
+              theta$eta.3), 
             c(theta.prior$mu.0,
               theta.prior$mu.1,
               theta.prior$mu.2,
-              theta.prior$mu.5), 
+              theta.prior$mu.3), 
             sigmaprior, log=TRUE)
   
   sigmaprior.d <- diag(c(theta.prior$sigma2.d1,
                          theta.prior$sigma2.d2,
-                         theta.prior$sigma2.d5))  
+                         theta.prior$sigma2.d3))  
 
   logprior <- logprior + 
     dgamma(theta$alpha.d, 
@@ -205,10 +205,10 @@ logpost<-function(theta, theta.prior, complete.data){
           log=TRUE) + 
     dmvnorm(c(theta$eta.d1,
               theta$eta.d2,
-              theta$eta.d5), 
+              theta$eta.d3), 
             c(theta.prior$mu.d1,
               theta.prior$mu.d2,
-              theta.prior$mu.d5), 
+              theta.prior$mu.d3), 
             sigmaprior.d, log=TRUE)
   
   logprior <- logprior + 
@@ -253,15 +253,15 @@ logpost<-function(theta, theta.prior, complete.data){
   
   sigmaprior.y <- diag(c(theta.prior$sigma2.y1,
                          theta.prior$sigma2.y2,
-                         theta.prior$sigma2.y5))  
+                         theta.prior$sigma2.y3))  
   
   logprior <- logprior + 
     dmvnorm(c(theta$eta.y1,
               theta$eta.y2,
-              theta$eta.y5), 
+              theta$eta.y3), 
             c(theta.prior$mu.y1,
               theta.prior$mu.y2,
-              theta.prior$mu.y5), 
+              theta.prior$mu.y3), 
             sigmaprior.y, log=TRUE)
   
   logprior <- logprior +
@@ -285,7 +285,7 @@ logpost.i <-function(theta, theta.prior, complete.data){
   Y  <- complete.data$Y
   x1 <- complete.data$x1
   x2 <- complete.data$x2
-  x5 <- complete.data$x5
+  x3 <- complete.data$x3
   
   loglik<-rep(0, n)
   #Z=1 ID=1 RY=1 ---> Never discontinued who die under treatment
@@ -296,7 +296,7 @@ logpost.i <-function(theta, theta.prior, complete.data){
               theta$beta.y1nd+
                 theta$eta.y1*x1[ii]+
                 theta$eta.y2*x2[ii]+
-                theta$eta.y5*x5[ii]))
+                theta$eta.y3*x3[ii]))
   
   #Z=1 ID=1 RY=0 ---> Never discontinued who do not die under treatment
   ii<-Z*ID*(1-RY)==1
@@ -306,7 +306,7 @@ logpost.i <-function(theta, theta.prior, complete.data){
               theta$beta.y1nd+
                 theta$eta.y1*x1[ii]+
                 theta$eta.y2*x2[ii]+
-                theta$eta.y5*x5[ii]))
+                theta$eta.y3*x3[ii]))
   
   #Z=1 ID=0 RD=1 RY=1 ---> Discontinued who die under treatment for whom we 
   #observe the discontinuation
@@ -317,13 +317,13 @@ logpost.i <-function(theta, theta.prior, complete.data){
               theta$beta.d+
                 theta$eta.d1*x1[ii]+
                 theta$eta.d2*x2[ii]+
-                theta$eta.d5*x5[ii]))+
+                theta$eta.d3*x3[ii]))+
     log(dtweibull(Y[ii],
               shape=theta$alpha.y1d,
               scale=exp(-(theta$beta.y1d+
                                   theta$eta.y1*x1[ii]+
                                   theta$eta.y2*x2[ii]+
-                                  theta$eta.y5*x5[ii]+
+                                  theta$eta.y3*x3[ii]+
                                   theta$lambda*log(D[ii]))/theta$alpha.y1d),
               a=D[ii]))
     # log(dtweib(Y[ii], 
@@ -331,7 +331,7 @@ logpost.i <-function(theta, theta.prior, complete.data){
     #            sc=exp(-(theta$beta.y1d+
     #                       theta$eta.y1*x1[ii]+
     #                       theta$eta.y2*x2[ii]+
-    #                       theta$eta.y5*x5[ii]+
+    #                       theta$eta.y3*x3[ii]+
     #                       theta$lambda*log(D[ii]))/theta$alpha.y1d),
     #            a=D[ii]))
   
@@ -345,13 +345,13 @@ logpost.i <-function(theta, theta.prior, complete.data){
               theta$beta.d+
                 theta$eta.d1*x1[ii]+
                 theta$eta.d2*x2[ii]+
-                theta$eta.d5*x5[ii]))+
+                theta$eta.d3*x3[ii]))+
     log(Stweib(Y[ii],
               sh=theta$alpha.y1d,
               sc=exp(-(theta$beta.y1d+
                             theta$eta.y1*x1[ii]+
                             theta$eta.y2*x2[ii]+
-                            theta$eta.y5*x5[ii]+
+                            theta$eta.y3*x3[ii]+
                             theta$lambda*log(D[ii]))/theta$alpha.y1d),
               a=D[ii]))
     # log(Stweib(Y[ii], 
@@ -359,7 +359,7 @@ logpost.i <-function(theta, theta.prior, complete.data){
     #            b=theta$beta.y1d+
     #              theta$eta.y1*x1[ii]+
     #              theta$eta.y2*x2[ii]+
-    #              theta$eta.y5*x5[ii]+
+    #              theta$eta.y3*x3[ii]+
     #              theta$lambda*log(D[ii]),
     #            l=D[ii]))
   
@@ -373,7 +373,7 @@ logpost.i <-function(theta, theta.prior, complete.data){
               theta$beta.d+
                 theta$eta.d1*x1[ii]+
                 theta$eta.d2*x2[ii]+
-                theta$eta.d5*x5[ii]))
+                theta$eta.d3*x3[ii]))
   
   
   #Z=0 ID=1 RY=1 ---> Never discontinued who die under control
@@ -384,7 +384,7 @@ logpost.i <-function(theta, theta.prior, complete.data){
                 theta$beta.y0nd+
                 theta$eta.y1*x1[ii]+
                 theta$eta.y2*x2[ii]+
-                theta$eta.y5*x5[ii]))
+                theta$eta.y3*x3[ii]))
   
   #Z=0 ID=1 RY=0 Y>Y1*k ---> Never discontinued who do not die under control
   ii <- (1-Z)*ID*(1-RY)==1
@@ -394,7 +394,7 @@ logpost.i <-function(theta, theta.prior, complete.data){
                 theta$beta.y0nd+
                 theta$eta.y1*x1[ii]+
                 theta$eta.y2*x2[ii]+
-                theta$eta.y5*x5[ii]))
+                theta$eta.y3*x3[ii]))
   
   #Z=0 ID=0 RY=1 ---> Discontinued who die under control
   ii <- (1-Z)*(1-ID)*RY==1
@@ -404,14 +404,14 @@ logpost.i <-function(theta, theta.prior, complete.data){
               theta$beta.d+
                 theta$eta.d1*x1[ii]+
                 theta$eta.d2*x2[ii]+
-                theta$eta.d5*x5[ii]))+
+                theta$eta.d3*x3[ii]))+
     log(dweib(Y[ii], 
                 theta$alpha.y0d, 
                 {theta$beta.y0d+
                     theta$lambda*log(D[ii])+
                     theta$eta.y1*x1[ii]+
                     theta$eta.y2*x2[ii]+
-                    theta$eta.y5*x5[ii]}))
+                    theta$eta.y3*x3[ii]}))
   
   #Z=0 ID=0  RY=0 ---> Discontinued who do not die under control
   ii <- (1-Z)*(1-ID)*(1-RY)==1
@@ -421,14 +421,14 @@ logpost.i <-function(theta, theta.prior, complete.data){
               theta$beta.d+
                 theta$eta.d1*x1[ii]+
                 theta$eta.d2*x2[ii]+
-                theta$eta.d5*x5[ii]))+
+                theta$eta.d3*x3[ii]))+
     log(Sweib(Y[ii], 
                 theta$alpha.y0d, 
                 {theta$beta.y0d+
                     theta$lambda*log(D[ii])+
                     theta$eta.y1*x1[ii]+
                     theta$eta.y2*x2[ii]+
-                    theta$eta.y5*x5[ii]}))
+                    theta$eta.y3*x3[ii]}))
   
   rm(ii)
   
@@ -437,22 +437,22 @@ logpost.i <-function(theta, theta.prior, complete.data){
   sigmaprior <- diag(c(theta.prior$sigma2.0,
                        theta.prior$sigma2.1,
                        theta.prior$sigma2.2,
-                       theta.prior$sigma2.5))  
+                       theta.prior$sigma2.3))  
   
   logprior <- logprior + 
     dmvnorm(c(theta$eta.0,
               theta$eta.1,
               theta$eta.2,
-              theta$eta.5), 
+              theta$eta.3), 
             c(theta.prior$mu.0,
               theta.prior$mu.1,
               theta.prior$mu.2,
-              theta.prior$mu.5), 
+              theta.prior$mu.3), 
             sigmaprior, log=TRUE)
   
   sigmaprior.d <- diag(c(theta.prior$sigma2.d1,
                          theta.prior$sigma2.d2,
-                         theta.prior$sigma2.d5))  
+                         theta.prior$sigma2.d3))  
   
   logprior <- logprior + 
     dgamma(theta$alpha.d, 
@@ -464,10 +464,10 @@ logpost.i <-function(theta, theta.prior, complete.data){
           log=TRUE) + 
     dmvnorm(c(theta$eta.d1,
               theta$eta.d2,
-              theta$eta.d5), 
+              theta$eta.d3), 
             c(theta.prior$mu.d1,
               theta.prior$mu.d2,
-              theta.prior$mu.d5), 
+              theta.prior$mu.d3), 
             sigmaprior.d, log=TRUE)
   
   logprior <- logprior + 
@@ -508,11 +508,11 @@ logpost.i <-function(theta, theta.prior, complete.data){
   
   sigmaprior.y <- diag(c(theta.prior$sigma2.y1,
                          theta.prior$sigma2.y2,
-                         theta.prior$sigma2.y5))  
+                         theta.prior$sigma2.y3))  
   
   logprior <- logprior + 
-    dmvnorm(c(theta$eta.y1,theta$eta.y2,theta$eta.y5), 
-            c(theta.prior$mu.y1,theta.prior$mu.y2,theta.prior$mu.y5), 
+    dmvnorm(c(theta$eta.y1,theta$eta.y2,theta$eta.y3), 
+            c(theta.prior$mu.y1,theta.prior$mu.y2,theta.prior$mu.y3), 
             sigmaprior.y, log=TRUE)
   
   logprior <- logprior +
