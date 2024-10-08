@@ -18,4 +18,4 @@ In both scenarios, we make some assumptions on discontinuation for synthetic dat
 - For D patients, higher-risk patients are more likely to discontinue sooner.
 
 For convenience, we standardise the continuous covariate $X_1$, and we use the standardised version in the data-generating process and in the estimation. 
-With a little abuse of notation, we continue denoting $\bm{X}$ the vector of covariates including the standardised $X_1$.
+With a little abuse of notation, we continue denoting $\mathbf{X}$ the vector of covariates including the standardised $X_1$.
