@@ -1,9 +1,9 @@
 # Evaluating causal effects on time-to-event outcomes in an RCT in Oncology with treatment discontinuation
 Authors: Veronica Ballerini, Björn Bornkamp, Alessandra Mattei, Fabrizia Mealli, Craig Wang, Yufen Zhang.
 
-arXiv: https://arxiv.org/abs/2310.06653v1
+Read the paper on arXiv: https://arxiv.org/abs/2310.06653v1
 
-This code reproduces the results for Scenario 1 and Scenario 2 in Section 5.4. 
+This code reproduces the results for Scenario 1 and Scenario 2 in Section 5.4 of the paper.
 
 Scenario 1 depicts a situation in which the principal causal effects are positive in all the latent strata, reflecting the efficacy of the treatment. 
 Scenario 2 represents a more challenging case of a positive overall effect, i.e., $ITT > 0$, but the treatment assignment has no effect for D patients; $ACE_{\text{D}} = 0$. 
