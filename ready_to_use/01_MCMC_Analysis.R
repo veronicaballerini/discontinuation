@@ -12,8 +12,8 @@ setwd(wd)
 
 #### Load your data. Read the README file for information about the required structure.
 observed.data<- read.table("example_data.txt",header=T)
-n_cov<-3
 x <- cbind(1,as.matrix(observed.data[,grepl("x",names(observed.data))]))
+n_cov <- dim(x)[x] - 1
 
 #### Load libraries and functions
 source("Functions.R")
