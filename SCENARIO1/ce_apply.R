@@ -70,10 +70,10 @@ ce_apply <- function(x){
                                                       x$eta.y1*x1[i]+
                                                       x$eta.y2*x2[i]+
                                                       x$eta.y3*x3[i]+
-                                                      x$lambda*log(d[h]))/x$alpha.y1d),
+                                                      x$delta*log(d[h]))/x$alpha.y1d),
                                         left=d[h])*(1-pi[i]))
       EY0 <- sum(EY0,(exp(-(x$beta.y0d+
-                              x$lambda*log(d[h])+
+                              x$delta*log(d[h])+
                               x$eta.y1*x1[i]+
                               x$eta.y2*x2[i]+
                               x$eta.y3*x3[i])/x$alpha.y0d)*gamma(1+{1/x$alpha.y0d}))*(1-pi[i]))
@@ -90,9 +90,9 @@ ce_apply <- function(x){
     ace.fd[h] <- ace.d[h]*dweib(h,
                                 a=x$alpha.d,
                                 b=x$beta.d+
-                                  x$eta.y1*x1[i]+
-                                  x$eta.y2*x2[i]+
-                                  x$eta.y3*x3[i])
+                                  x$eta.d1*x1[i]+
+                                  x$eta.d2*x2[i]+
+                                  x$eta.d3*x3[i])
     
     rm(EY1.d,EY0.d)
   }
@@ -175,7 +175,7 @@ dce_apply <- function(x){
                                          x$eta.y1*x1[i]+
                                          x$eta.y2*x2[i]+
                                          x$eta.y3*x3[i]+
-                                         x$lambda*log(d[h]))/x$alpha.y1d),
+                                         x$delta*log(d[h]))/x$alpha.y1d),
                               a=d[h])*(1-pi[i]))
       # dce.d1 <- rbind(dce.d1,
       #                 Stweib(y,
@@ -184,14 +184,14 @@ dce_apply <- function(x){
       #                          x$eta.y1*x1[i]+
       #                          x$eta.y2*x2[i]+
       #                          x$eta.y3*x3[i]+
-      #                          x$lambda*log(d[h]),
+      #                          x$delta*log(d[h]),
       #                        l=d[h])*(1-pi[i]))
       
       dce.d0 <- rbind(dce.d0,
                       (Sweib(y,
                              x$alpha.y0d,
                              x$beta.y0d+
-                               x$lambda*log(d[h])+
+                               x$delta*log(d[h])+
                                x$eta.y1*x1[i]+
                                x$eta.y2*x2[i]+
                                x$eta.y3*x3[i]))*(1-pi[i]))
