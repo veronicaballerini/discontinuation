@@ -3,7 +3,7 @@ Authors: Veronica Ballerini, Björn Bornkamp, Alessandra Mattei, Fabrizia Mealli
 
 Read the paper on arXiv: https://arxiv.org/abs/2310.06653v1
 
-This code reproduces the results for Scenario 1 and Scenario 2 in Section 5.4 of the paper.
+This repository contains codes to reproduce the results for both Scenario 1 and Scenario 2 in Section 5.4 of the paper. 
 
 Scenario 1 depicts a situation in which the principal causal effects are positive in all the latent strata, reflecting the efficacy of the treatment. 
 Scenario 2 represents a more challenging case of a positive overall effect, i.e., $ITT > 0$, but the treatment assignment has no effect for D patients; $ACE_{\text{D}} = 0$. 
@@ -17,5 +17,4 @@ In both scenarios, we make some assumptions on discontinuation for synthetic dat
 - Patients with $X_2$, $X_3$ equal to $1$ are more likely to be ND patients, i.e., patients who experience progression-free survival (PFS) without discontinuing.
 - For D patients, higher-risk patients are more likely to discontinue sooner.
 
-For convenience, we standardise the continuous covariate $X_1$, and we use the standardised version in the data-generating process and in the estimation. 
-With a little abuse of notation, we continue denoting $\mathbf{X}$ the vector of covariates including the standardised $X_1$.
+The folder "ready_to_use" contains codes to reproduce the analysis with your own data. The codes in this folder are generalized to work with more (or less) than three covariates. However, keep in mind that the code is not optimized and the results (and computational capacity) may be affected as the number of covariates increase.
