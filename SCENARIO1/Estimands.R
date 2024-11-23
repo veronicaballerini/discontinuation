@@ -57,8 +57,6 @@ ce <- function(theta, d,complete.data, scenario){
     EY0 <- EY1 <- NULL
     
     for(i in which(ID==0)){
-      # EY1 <- sum(EY1,(exp(-(theta$beta.y1d+theta$lambda*log(d[h])+theta$eta.y1*x1[i]+theta$eta.y2*x2[i]+theta$eta.y3*x3[i])/theta$alpha.y1d)*gamma(1+{1/theta$alpha.y1d})+d[h])*(1-theta$pi[i]))
-      # EY0 <- sum(EY0,(exp(-(theta$beta.y0d+theta$lambda*log(d[h])+theta$eta.y1*x1[i]+theta$eta.y2*x2[i]+theta$eta.y3*x3[i])/theta$alpha.y0d)*gamma(1+{1/theta$alpha.y0d})+k*d[h])*(1-theta$pi[i]))
       EY1 <- sum(EY1,Weib.Trunc.Moments(order=1,
                                         shape=theta$alpha.y1d,
                                         scale=exp(-(theta$beta.y1d+
@@ -67,14 +65,6 @@ ce <- function(theta, d,complete.data, scenario){
                                                       theta$eta.y3*x3[i]+
                                                       theta$lambda*log(d[h]))/theta$alpha.y1d),
                                         left=d[h])*(1-theta$pi[i]))
-      # EY0 <- sum(EY0,Weib.Trunc.Moments(order=1,
-      #                                   shape=theta$alpha.y0d,
-      #                                   scale=exp(-(theta$beta.y0d+
-      #                                                 theta$eta.y1*x1[i]+
-      #                                                 theta$eta.y2*x2[i]+
-      #                                                 theta$eta.y3*x3[i]+
-      #                                                 theta$lambda*log(d[h]))/theta$alpha.y0d),
-      #                                   left=d[h])*(1-theta$pi[i]))
       if(scenario==1){
         EY0 <- sum(EY0,(exp(-(theta$beta.y0d+
                                 theta$lambda*log(d[h])+
