@@ -60,6 +60,7 @@ The content of the folder follows.
   Inputs:
   
   - "tables.R" -> compute coverage, width, and bias.
+    
     Inputs: 
         - "final\_simdata.RData" if full == TRUE, or "final\_simdata\_intermediate.RData" otherwise.
 
