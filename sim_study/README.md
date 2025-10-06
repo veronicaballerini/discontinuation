@@ -8,10 +8,10 @@ The content of the folder follows.
 - "01_MCMC_Analysis.R" is the master script that runs the simulation study. 
   Inputs: 
   - "Functions.R" -> contains all useful functions
-  - "estimands_apply.R" -> function to compute the posterior of the effects; models with covariates
-  - "estimands_apply_nocov.R" -> function to compute the posterior of the effects; models w/o covariates
+  - "estimands\_apply.R" -> function to compute the posterior of the effects; models with covariates
+  - "estimands\_apply\_nocov.R" -> function to compute the posterior of the effects; models w/o covariates
   - "Estimands.R" -> function to compute the "true" values of the effects
-  - "applyfun_1.R" -> function that i) generates data under SCENARIO I with covariates, ii) estimate the joint    
+  - "applyfun\_1.R" -> function that i) generates data under SCENARIO I with covariates, ii) estimate the joint    
      posterior distribution using the model correctly specified, iii) compute the coverage, width, and bias of the 
      model
   - "applyfun_1nocov.R" -> function that i) generates data under SCENARIO I with covariates, ii) estimate the joint
@@ -26,9 +26,9 @@ The content of the folder follows.
   - "MCMC.R"-> contains the MCMC described by Algorithm 1 in Appendix B. 
        Inputs: "CompleteLogPost.R" and "DataAugmentation.R"
   - "MCMC_nocov.R" -> contains the MCMC described by Algorithm 1 in Appendix B, but w/o covariates. 
-       Inputs: "CompleteLogPost_nocov.R" and "DataAugmentation_nocov.R"
+       Inputs: "CompleteLogPost\_nocov.R" and "DataAugmentation\_nocov.R"
   - "MCMC_initialization.R" -> sets the values for the prior, the proposal and the starting values of the parameters
-  - "seeds1.txt", "seeds1_nocov.txt", "seeds2.txt", "seeds2_nocov.txt": files that fix the seeds for reproducibility. 
+  - "seeds1.txt", "seeds1\_nocov.txt", "seeds2.txt", "seeds2_nocov.txt": files that fix the seeds for reproducibility. 
      If full == FALSE, only the first 2 seeds for each scenario are used (only without-covariates-specification). 
   Outputs:
   - Files .txt named "realdata*SCENARIO*_*SEED*" and "simdata*SCENARIO*_*SEED*" (in "sim" folder)
