@@ -58,12 +58,12 @@ The content of the folder follows.
    different; set the option at line 25.
 
   Inputs:
-      - "tables.R" -> compute coverage, width, and bias. 
-
-      Inputs: 
+  
+  - "tables.R" -> compute coverage, width, and bias.
+    Inputs: 
         - "final\_simdata.RData" if full == TRUE, or "final\_simdata\_intermediate.RData" otherwise.
 
-      Outputs (in "tables" folder, subfolder "FULL" if full == TRUE, "INTERMEDIATE" otherwise): 
+    Outputs (in "tables" folder, subfolder "FULL" if full == TRUE, "INTERMEDIATE" otherwise): 
         - TableX.rds", X = 4, …, 15
 
   Outputs (in "plots" folder -> subfolder "FULL" if full == TRUE, "INTERMEDIATE" otherwise):
