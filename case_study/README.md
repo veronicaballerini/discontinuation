@@ -1,3 +1,4 @@
+#Case study
 This folder contains scripts that reproduce the results of the case study in Sections 2 and 6.
 The content of the folder follows.
 
