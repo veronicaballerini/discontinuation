@@ -1,3 +1,4 @@
+# Simulation study, Section 5
 This folder contains scripts to reproduce the results of the simulation study in Section 5. 
 You can choose to reproduce either the full simulation study or an "intermediate" one, by setting the option "full" (line 38 of the main script 01_MCMC_Analysis.R) equal to TRUE or FALSE, respectively. 
 If full == FALSE, you will use 2 datasets (instead of 150 of the full study) and implement the model for both scenarios without covariates.
