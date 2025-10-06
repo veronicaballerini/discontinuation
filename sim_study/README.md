@@ -5,7 +5,8 @@ Also, change option at line 25 of 03\_results.R.
 
 The content of the folder follows.
 
-- "01\_MCMC\_Analysis.R" is the master script that runs the simulation study. 
+- "01\_MCMC\_Analysis.R" is the master script that runs the simulation study.
+  
   Inputs: 
   - "Functions.R" -> contains all useful functions
   - "estimands\_apply.R" -> function to compute the posterior of the effects; models with covariates
@@ -30,7 +31,8 @@ The content of the folder follows.
   - "MCMC\_initialization.R" -> sets the values for the prior, the proposal and the starting values of the parameters
   - "seeds1.txt", "seeds1\_nocov.txt", "seeds2.txt", "seeds2\_nocov.txt": files that fix the seeds for reproducibility. 
      If full == FALSE, only the first 2 seeds for each scenario are used (only without-covariates-specification). 
-  Outputs:
+
+   Outputs:
   - Files .txt named "realdata\*SCENARIO\*\_\*SEED\*" and "simdata*SCENARIO*\_\*SEED\*" (in "sim" folder)
   - Files .RData named "thetatrue\*SCENARIO\*\_\*SEED\*" (in "sim" folder)
   - Files .txt named "jump*SCENARIO\*\_\*SEED*" that check the acceptance rates are optimal and the chain jumps
@@ -42,18 +44,24 @@ The content of the folder follows.
      datasets, and each element of such a list is, in turn, a list of 25 element that are used to compute coverage, 
      width, and bias. 
 - "02\_KM.R" reproduces Figures 3-6 in Section 5 (to run after the simulation study ends)
+
   Inputs: 
   - realdata + observed data .txt files printed during the (full) simulation study. We used seed 4798 as an example for 
      Scenario I, and seed 4800 for Scenario II. 
+  
   Outputs (in "plots" folder):
    - Figure3a, Figure3b, Figure4, Figure5a, Figure5b, Figure6 (.jpeg files).
 - "03\_results.R" makes the graphs in Figures 7-12, and tables in Appendix C. Results for full/intermediate are
    different; set the option at line 25.
-   Inputs: 
+
+  Inputs: 
       - "tables.R" -> compute coverage, width, and bias. 
-        Inputs: 
+
+      Inputs: 
         - "final\_simdata.RData" if full == TRUE, or "final\_simdata\_intermediate.RData" otherwise.
-        Outputs (in "tables" folder, subfolder "FULL" if full == TRUE, "INTERMEDIATE" otherwise): 
+
+      Outputs (in "tables" folder, subfolder "FULL" if full == TRUE, "INTERMEDIATE" otherwise): 
         - TableX.rds", X = 4, …, 15
-   Outputs (in "plots" folder -> subfolder "FULL" if full == TRUE, "INTERMEDIATE" otherwise):
+
+  Outputs (in "plots" folder -> subfolder "FULL" if full == TRUE, "INTERMEDIATE" otherwise):
    - Figure7, Figure8, Figure9, FIgure10, Figure11, Figure12 (.jpeg files).
