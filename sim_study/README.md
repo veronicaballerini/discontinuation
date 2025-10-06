@@ -45,16 +45,20 @@ The content of the folder follows.
      width, and bias. 
 - "02\_KM.R" reproduces Figures 3-6 in Section 5 (to run after the simulation study ends)
 
-  Inputs: 
+  Inputs:
+  
   - realdata + observed data .txt files printed during the (full) simulation study. We used seed 4798 as an example for 
      Scenario I, and seed 4800 for Scenario II. 
   
   Outputs (in "plots" folder):
+  
    - Figure3a, Figure3b, Figure4, Figure5a, Figure5b, Figure6 (.jpeg files).
+     
 - "03\_results.R" makes the graphs in Figures 7-12, and tables in Appendix C. Results for full/intermediate are
    different; set the option at line 25.
 
-  Inputs: 
+  Inputs:
+  
       - "tables.R" -> compute coverage, width, and bias. 
 
       Inputs: 
