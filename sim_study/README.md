@@ -58,7 +58,6 @@ The content of the folder follows.
    different; set the option at line 25.
 
   Inputs:
-  
       - "tables.R" -> compute coverage, width, and bias. 
 
       Inputs: 
