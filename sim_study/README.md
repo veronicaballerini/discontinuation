@@ -49,7 +49,8 @@ The content of the folder follows.
   Inputs:
   
   - realdata + observed data .txt files printed during the (full) simulation study. We used seed 4798 as an example for 
-     Scenario I, and seed 4800 for Scenario II. 
+     Scenario I, and seed 4800 for Scenario II. The full study prints these files containing simulated data. If you run 
+     the intermediate one only, please copy-paste/do not delete such files.
   
   Outputs (in "plots" folder):
   
