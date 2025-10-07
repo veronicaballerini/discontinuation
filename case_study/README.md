@@ -1,8 +1,9 @@
 # Case study, Sections 2 and 6
 This folder contains scripts that reproduce the results of the case study in Sections 2 and 6.
-The content of the folder follows.
+Run the following scripts in order (from 01 to 04, detailed below) to reproduce all results in Sections 2 and 6. 
+If you run the scripts from 01 to 03, you will reproduce all results for the chosen model, namely the Exponential-Exponential, except for the WAIC value. To obtain the WAIC values, you need to run the "04_WAIC.R" file, which implements the two competing models. It takes > 2 hours to run.
 
-- "01_MCMC_Analysis.R" is the master script that runs the MCMC with Exponential-Exponential specification.
+- "01_MCMC_Analysis.R" is the master script that runs the MCMC with Exponential-Exponential specification. It takes about 1 hour to run.
 Inputs: 
   - "synthetic_data.csv" -> dataset containing synthetic data based on a real case study, simulated using the "synthpop" package.
   - "Functions.R" -> contains all useful functions
@@ -17,7 +18,7 @@ Outputs:
    - Figure 2 (.jpeg file, in the "figures" folder) 
    - Table1, Table2_left, and Table2_right (.rds files, in the "tables" folder) 
 
-- "02_results.R" reproduces Figures 13-15 in Section 6
+- "02_results.R" reproduces Figures 13-15 in Section 6. It takes a few minutes to run.
 Inputs: 
    - "results_processing.R": processes the results.
 	Inputs:
@@ -36,13 +37,13 @@ Inputs:
 Outputs:
    - Figures 13-15 (.jpeg files, in folder "figures").   
 
-- "03_covariates -> to produce Figures 16-18. 
+- "03_covariates -> to produce Figures 16-18. It takes a few seconds to run.
 Input: 
    - "results.RData"
 Outputs: 
    - Figures 16-18 (.jpeg files, in folder "figures").
 
-- "04_WAIC.R" -> to obtain the WAIC values for model selection. It runs the Weib-Weib and Exp-Weib models.
+- "04_WAIC.R" -> to obtain the WAIC values for model selection. It implements the Weibull-Weibull and Exponential-Weibull models. It takes > 2 hours to run.
 Inputs: 
   - "synthetic_data.csv" -> dataset containing synthetic data based on the real case study, simulated using the "synthpop" package.
   - "Functions.R" -> contains all useful functions
