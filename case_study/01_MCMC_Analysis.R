@@ -14,7 +14,7 @@
 
 # Optional: clean the environment
 # rm(list = ls())
-wd <- "/home/as218929/BiomJourn_RepPack/case_study" # change here your wd
+wd <- "/home/BiomJourn_RepPack/case_study" # change here your wd
 setwd(wd)
 
 # Load libraries and functions
