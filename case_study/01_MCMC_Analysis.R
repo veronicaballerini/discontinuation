@@ -10,11 +10,11 @@
 #
 # Code author: Veronica Ballerini
 # Last modified: October 6, 2025 
-################################################################################ 
+################################################################################
 
-# Optional: clean the environment
+# Optional: clean the environment 
 # rm(list = ls())
-wd <- "/home/BiomJourn_RepPack/case_study" # change here your wd
+wd <- "/home/BiomJourn_RepPack/case_study"  # change here your wd
 setwd(wd)
 
 # Load libraries and functions
@@ -26,6 +26,9 @@ library(mvtnorm)
 library(parallel)
 library(ggplot2)
 library(ggfortify)
+library(xtable)
+library(dplyr)
+library(RColorBrewer)
 
 #### Load your data
 observed.data <- read.csv("synthetic_data.csv", sep = ",")
@@ -37,7 +40,7 @@ niter <- 50000
 burn <- 30000
 thin <- 10
 
-# Exp-Exp model: Exponential distributions for the potential time to 
+# Exp-Exp model: Exponential distributions for the potential time to
 # discontinuation and the potential PFS
 source("MCMC_expexp.R")
 source("CompleteLogPost_expexp.R")
@@ -45,11 +48,9 @@ source("DataAugmentation_expexp.R")
 source("MCMC_initialization_expexp.R")
 
 set.seed(474756)
-chain_expexp <- mcmc.tdiscontinue_expexp(niter = niter, burn = burn, 
-                                         thin = thin, 
-                                         par.start = par.start_expexp, 
-                                         proposal = proposal_expexp, 
-                                         theta.prior = theta.prior_expexp, 
-                                         observed.data = observed.data)
+chain_expexp <- mcmc.tdiscontinue_expexp(niter = niter, burn = burn, thin = thin,
+    par.start = par.start_expexp, proposal = proposal_expexp, theta.prior = theta.prior_expexp,
+    observed.data = observed.data)
+
 #### Save results
 save(chain_expexp, file = "final_casestudy.RData")

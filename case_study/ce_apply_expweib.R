@@ -72,7 +72,7 @@ rmste_apply_expweib <- function(x){
   fd <- matrix(0, nrow = n_obs, ncol = length(d))
   for (j in seq_along(d)) {
     fd[, j] <- dexp(d[j],  
-                        rate = scale_fd)
+                    rate = scale_fd)
   }
   
   # fD from cov grid
@@ -365,14 +365,6 @@ waicfun_expweib <- function(x){
                    x$eta.d1*x1[ii]+
                    x$eta.d2*x2[ii]+
                    x$eta.d3*x3[ii])))+
-    # log(dtweibull(Y[ii],
-    #           shape=x$alpha.y1d,
-    #           scale=exp(-(x$beta.y1d+
-    #                               x$eta.y1*x1[ii]+
-    #                               x$eta.y2*x2[ii]+
-    #                               x$eta.y3*x3[ii]+
-    #                               x$delta*log(D[ii]))/x$alpha.y1d),
-    #           a=D[ii]))
     log(dtweib(Y[ii],
                sh=x$alpha.y1d,
                sc=exp(-(x$beta.y1d+
@@ -392,14 +384,6 @@ waicfun_expweib <- function(x){
                    x$eta.d1*x1[ii]+
                    x$eta.d2*x2[ii]+
                    x$eta.d3*x3[ii])))+
-    # log(Stweib(Y[ii],
-    #           sh=x$alpha.y1d,
-    #           sc=exp(-(x$beta.y1d+
-    #                         x$eta.y1*x1[ii]+
-    #                         x$eta.y2*x2[ii]+
-    #                         x$eta.y3*x3[ii]+
-    #                         x$delta*log(D[ii]))/x$alpha.y1d),
-    #           a=D[ii]))
     log(Stweib(Y[ii],
                a=x$alpha.y1d,
                b=x$beta.y1d+
@@ -475,4 +459,3 @@ waicfun_expweib <- function(x){
   
   return(loglik=loglik)
 }
-
