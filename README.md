@@ -2,6 +2,6 @@
 Authors: Veronica Ballerini, Björn Bornkamp, Fabrizia Mealli, Craig Wang, Yufen Zhang, Alessandra Mattei.
 Biometrical Journal
 
-Read the paper on arXiv: https://arxiv.org/abs/2310.06653v2
+arXiv version: https://arxiv.org/abs/2310.06653v2
 
 This repository contains simulated data and synthetic data based on a real case study. Moreover, it includes all the codes to reproduce the results of the simulation study and the case study. 
