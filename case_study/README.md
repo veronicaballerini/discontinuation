@@ -5,7 +5,14 @@ If you run the scripts from 01 to 03, you will reproduce all results for the cho
 
 - "01_MCMC_Analysis.R" is the master script that runs the MCMC with Exponential-Exponential specification. It takes about 1 hour to run.
 Inputs: 
-  - "synthetic_data.csv" -> dataset containing synthetic data based on a real case study, simulated using the "synthpop" package.
+  - "synthetic_data.csv" -> dataset containing synthetic data based on a real case study, simulated using the "synthpop" package. It contains the following variables:
+    	- Z: treatment assignment indicator
+    	- RD.obs: indicator taking value 1 if discontinuation is observed during the follow-up
+  		- D: time-to-discontinuation (if RD.obs == 1) or time-to-censoring (if RD.obs == 0)
+    	- RY: indicator taking value 1 if the primary event is observed during the follow-up
+    	- Y: PFS/time to the primary event (if RY == 1) or time-to-censoring (if RY == 0)
+    	- ID.obs: it takes value 1 if the patient is observed to be a ND patient, namely RD.obs = 0 & RY = 1
+    	- x1, x2, x3: covariates
   - "Functions.R" -> contains all useful functions
   - "descriptive.R" -> compute the descriptive statistics and produce Tables 1 and 2, and Figure 2 of Section 2.
   - "MCMC_expexp.R"-> contains the MCMC described by Algorithm 1 in Appendix B, but with exponential specifications. 
